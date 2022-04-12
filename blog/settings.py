@@ -28,6 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
 
 # Application definition

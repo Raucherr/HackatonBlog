@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Profile
 from .permissions import IsProfileAuthor
-from .serializer import RegisterSerializer, LoginSerializer, ProfileSerializer
+from .serializer import *
 
 
 
@@ -58,3 +58,20 @@ class ProfileUpdateView(generics.UpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated, IsProfileAuthor]
+
+class ForgotPasswordView(APIView):
+    def post(self, request):
+        serializer = ForgotPasswordSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.create_new_password()
+            return Response('Вам на почту выслан новый пароль')
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.data,
+                                              context={'request': request})
+        if serializer.is_valid(raise_exception=True):
+            serializer.set_new_password()
+            return Response('Пароль успешно обновлён')
