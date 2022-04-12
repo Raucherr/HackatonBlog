@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from post.models import Post
 from post.permissions import IsPostAuthor
-from serializer import PostSerializer
+from post.serializer import PostSerializer
 
 
 class PostListView(generics.ListAPIView):
