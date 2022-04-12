@@ -13,11 +13,9 @@ User = get_user_model()
 
 
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE,
-                               related_name='post')
     title = models.TextField()
-    image = models.ImageField(upload_to='')
-    body = models.TextField()
+    img = models.ImageField(upload_to='')
+    description = models.TextField()
     public_date = models.DateField(auto_now_add=True)
 
     def __str__(self):

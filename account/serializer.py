@@ -40,7 +40,7 @@ class LoginSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         email = attrs.get('email')
-        password = attrs.get('password')
+        password = attrs.pop('password')
 
         if email and password:
             user = authenticate(request=self.context.get('request'),
