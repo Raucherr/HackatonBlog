@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 
 from .models import Profile
 from .permissions import IsProfileAuthor
-from .serializers import RegisterSerializer, LoginSerializer, ProfileSerializer
+from .serializer import RegisterSerializer, LoginSerializer, ProfileSerializer
 from rest_framework.response import Response
 from rest_framework import status, generics
 
