@@ -3,7 +3,7 @@ from .views import *
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
-    path('register/', RegisterView.as_view(), name='registratiotn'),
+    path('register/', RegisterView.as_view(), name='registration'),
     path('activate/<str:activation_code>/', ActivationView.as_view()),
     path('login/', LoginView.as_view()),
     # path('logout/', views.LogoutView.as_view()),
