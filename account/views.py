@@ -6,32 +6,31 @@ from rest_framework.generics import get_object_or_404, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from .models import Profile
 from .permissions import IsProfileAuthor
-from .serializer import RegisterSerializer, LoginSerializer, ProfileSerializer
+from .serializer import *
 
 
 class RegisterView(APIView):
-
     def post(self, request):
         data = request.data
         serializer = RegisterSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response('Successfully registration', status=status.HTTP_201_CREATED)
+            return Response('Successful registration!', status=status.HTTP_201_CREATED)
 
 
 class ActivationView(APIView):
-    def get(self, request, activation_code):
-        User = get_user_model()
-        user = get_object_or_404(User, activation_code=activation_code)
-        user.is_active = True
-        user.activation_code = ''
-        user.save()
-        return Response('Your account successfully activated!', status=status.HTTP_200_OK)
+    def post(self, request):
+        serializer = ActivationSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.activate()
+            return Response('Вы успешно активированы')
 
 
-class LoginView(ObtainAuthToken):
+class LoginView(TokenObtainPairView):
     serializer_class = LoginSerializer
 
 

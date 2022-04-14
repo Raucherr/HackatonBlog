@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainSerializer, TokenObtainPairSerializer
 
 from .models import Profile
 from .utils import send_activation_email
@@ -36,28 +37,46 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class ActivationSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    activation_code = serializers.CharField(min_length=8)
 
-class LoginSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField(style={'input_type': 'password'}, trim_whitespace=False)
+    def validate(self, attrs):
+        email = attrs.get('email')
+        activation_code = attrs.get('activation_code')
 
-    def validate(self, validated_data):
-        print(validated_data)
-        email = validated_data.get('email')
-        password = validated_data.get('password')
+        if not User.objects.filter(email=email, activation_code=activation_code).exists():
+            raise serializers.ValidationError('Пользователь не найден!')
+        return attrs
 
-        if email and password:
-            user = authenticate(request=self.context.get('request'), username=email, password=password)
+    def activate(self):
+        email = self.validated_data.get('email')
+        user = User.objects.get(email=email)
+        user.is_active = True
+        user.activation_code = ''
+        user.save()
 
-            if not user:
-                msg = 'No login with provided credentials'
-                raise serializers.ValidationError(msg, code='authorization')
-        else:
-            msg = 'No "password" or "Email"'
-            raise serializers.ValidationError(msg, code='authoriazation')
 
-        validated_data['user'] = user
-        return validated_data
+class LoginSerializer(TokenObtainPairSerializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(min_length=6, required=True)
+
+    def validate_email(self, email):
+        if not User.objects.filter(email=email).exists():
+            raise serializers.ValidationError('Пользователь не найден')
+        return email
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.pop('password')
+        user = User.objects.get(email=email)
+        if not user.check_password(password):
+            raise serializers.ValidationError('Неверный пароль')
+        if user and user.is_active:
+            refresh = self.get_token(user)
+            attrs['refresh'] = str(refresh)
+            attrs['access'] = str(refresh.access_token)
+        return attrs
 
 
 class ProfileSerializer(serializers.ModelSerializer):

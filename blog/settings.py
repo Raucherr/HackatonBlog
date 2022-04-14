@@ -33,25 +33,6 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 # Application definition
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework_swagger',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'django_rest_passwordreset',
-    'rest_framework_simplejwt',
-    'corsheaders',
-    'drf_yasg',
-
-    'account',
-    'post',
-    'comment',
-]
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -63,6 +44,26 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+]
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    'rest_framework',
+    'django_rest_passwordreset',
+    'rest_framework.authtoken',
+    'rest_framework_swagger',
+    'rest_framework_simplejwt',
+    'corsheaders',
+    'drf_yasg',
+
+    'account',
+    'post',
+    'comment',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -150,7 +151,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = 'account.user'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
