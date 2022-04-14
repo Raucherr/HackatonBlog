@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'account',
     'post',
     'comment',
+    'category',
 ]
 
 CORS_ALLOWED_ORIGINS = [

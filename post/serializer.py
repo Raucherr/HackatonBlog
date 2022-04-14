@@ -2,7 +2,29 @@ from rest_framework import serializers
 
 from comment.models import Comment
 from comment.serializer import CommentSerializer
-from post.models import Post
+from post.models import Post, PostImage
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PostImage
+        fields = ('image', )
+
+    def _get_image_url(self, obj):
+        if obj.image:
+            url = obj.image.url
+            request = self.context.get('request')
+            if request is not None:
+                url = request.build_absolute_uri(url)
+        else:
+            url = ''
+        return url
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['image'] = self._get_image_url(instance)
+        return rep
 
 
 class PostSerializer(serializers.ModelSerializer):
