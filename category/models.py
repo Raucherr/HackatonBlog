@@ -5,8 +5,7 @@ from .utils import slug_generator
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=255, primary_key=True, unique=True,
-                            blank=True)
+    slug = models.SlugField(max_length=255, primary_key=True, unique=True, blank=True)
     parent = models.ForeignKey("self", on_delete=models.CASCADE,
                                related_name='children', blank=True,
                                null=True)

@@ -3,7 +3,8 @@ from rest_framework import serializers
 from comment.models import Comment
 from comment.serializer import CommentSerializer
 from post.models import Post, PostImage
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 class ProductImageSerializer(serializers.ModelSerializer):
 
@@ -30,11 +31,13 @@ class ProductImageSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ('author',)
 
     def create(self, validated_data):
         request = self.context.get('request')
-        validated_data['author_id'] = request.user.id
+        print(validated_data)
+        validated_data['author'] = User.objects.get(id=request.user.id)
         post = Post.objects.create(**validated_data)
         return post
 
