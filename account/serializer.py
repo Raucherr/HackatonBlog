@@ -1,8 +1,8 @@
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainSerializer, TokenObtainPairSerializer
-
-from .models import Profile
+#
+# from .models import Profile
 from .utils import send_activation_email
 
 User = get_user_model()
@@ -79,19 +79,19 @@ class LoginSerializer(TokenObtainPairSerializer):
         return attrs
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Profile
-        fields = '__all__'
-
-    def create(self, validated_data):
-        request = self.context.get('request')
-        validated_data['user'] = User.objects.get(id=request.user.id)
-        profile = Profile.objects.create(**validated_data)
-        return profile
-
-    def to_representation(self, instance):
-        rep = super().to_representation(instance)
-        # rep['favorite'] = f'{[i.title for i in instance.favorite.all()]}'
-        return rep
+# class ProfileSerializer(serializers.ModelSerializer):
+#
+#     class Meta:
+#         model = Profile
+#         fields = '__all__'
+#
+#     def create(self, validated_data):
+#         request = self.context.get('request')
+#         validated_data['user'] = User.objects.get(id=request.user.id)
+#         profile = Profile.objects.create(**validated_data)
+#         return profile
+#
+#     def to_representation(self, instance):
+#         rep = super().to_representation(instance)
+#         # rep['favorite'] = f'{[i.title for i in instance.favorite.all()]}'
+#         return rep

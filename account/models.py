@@ -54,19 +54,19 @@ class User(AbstractUser):
         self.activation_code = activations_code
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,
-                                related_name='profile')
-    first_name = models.CharField(max_length=50, blank=True, null=True)
-    last_name = models.CharField(max_length=50)
-    photo = models.ImageField(upload_to='users_photo', blank=True, null=True)
-    age = models.IntegerField(blank=True, null=True)
-    address = models.CharField(max_length=50, null=True)
-    # favorite = models.ManyToManyField(AviaCompany, related_name='favorite', blank=True)
-
-
-    def __str__(self):
-         return f'{self.first_name} {self.last_name}'
+# class Profile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE,
+#                                 related_name='profile')
+#     first_name = models.CharField(max_length=50, blank=True, null=True)
+#     last_name = models.CharField(max_length=50)
+#     photo = models.ImageField(upload_to='users_photo', blank=True, null=True)
+#     age = models.IntegerField(blank=True, null=True)
+#     address = models.CharField(max_length=50, null=True)
+#     # favorite = models.ManyToManyField(AviaCompany, related_name='favorite', blank=True)
+#
+#
+#     def __str__(self):
+#          return f'{self.first_name} {self.last_name}'
 
 
 @receiver(reset_password_token_created)
