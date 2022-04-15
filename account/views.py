@@ -53,6 +53,15 @@ class ProfileView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class ProfileCreateView(generics.CreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated, ]
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+
 class ProfileUpdateView(generics.UpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer

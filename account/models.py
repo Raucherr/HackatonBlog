@@ -47,7 +47,7 @@ class User(AbstractUser):
 
     def create_activation_code(self):
         import hashlib
-        string_to_encode = self.email + str(self.id)
+        string_to_encode = self.email
         encode_string = string_to_encode.encode()
         md5_object = hashlib.md5(encode_string)
         activations_code = md5_object.hexdigest()

@@ -87,11 +87,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         request = self.context.get('request')
-        validated_data['author_id'] = request.user.id
+        validated_data['user'] = User.objects.get(id=request.user.id)
         profile = Profile.objects.create(**validated_data)
         return profile
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
-        rep['favorite'] = f'{[i.title for i in instance.favorite.all()]}'
+        # rep['favorite'] = f'{[i.title for i in instance.favorite.all()]}'
         return rep

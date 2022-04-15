@@ -12,17 +12,9 @@ class Post(models.Model):
                                  on_delete=models.CASCADE,
                                  related_name='post')
     description = models.TextField()
+    img = models.ImageField(blank=True, upload_to='post_photo')
+    date = models.DateField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    public_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.title
-
-
-class PostImage(models.Model):
-    product = models.ForeignKey(Post, on_delete=models.CASCADE,
-                                related_name='image')
-    image = models.ImageField(upload_to='products_photo')
-
-    def __str__(self):
-        return self.product.title
