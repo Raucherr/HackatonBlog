@@ -1,15 +1,9 @@
-from django.contrib.auth import get_user_model
-from rest_framework import status, generics
+from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.generics import get_object_or_404, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
-
-from .models import Profile
-from .permissions import IsProfileAuthor
 from .serializer import *
 
 
@@ -43,26 +37,26 @@ class LogoutView(APIView):
         return Response('Successfully logout', status=status.HTTP_201_CREATED)
 
 
-class ProfileView(APIView):
-    permission_classes = [IsAuthenticated, ]
-
-    def get(self, request):
-        user = request.user
-        profile = Profile.objects.get(user=user.id)
-        serializer = ProfileSerializer(profile, many=False)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class ProfileCreateView(generics.CreateAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated, ]
-
-    def get_serializer_context(self):
-        return {'request': self.request}
-
-
-class ProfileUpdateView(generics.UpdateAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated, IsProfileAuthor, ]
+# class ProfileView(APIView):
+#     permission_classes = [IsAuthenticated, ]
+#
+#     def get(self, request):
+#         user = request.user
+#         profile = Profile.objects.get(user=user.id)
+#         serializer = ProfileSerializer(profile, many=False)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+#
+#
+# class ProfileCreateView(generics.CreateAPIView):
+#     queryset = Profile.objects.all()
+#     serializer_class = ProfileSerializer
+#     permission_classes = [IsAuthenticated, ]
+#
+#     def get_serializer_context(self):
+#         return {'request': self.request}
+#
+#
+# class ProfileUpdateView(generics.UpdateAPIView):
+#     queryset = Profile.objects.all()
+#     serializer_class = ProfileSerializer
+#     permission_classes = [IsAuthenticated, IsProfileAuthor, ]
