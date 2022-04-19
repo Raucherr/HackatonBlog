@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from category.serializers import CategorySerializer
 from post.models import Post
 from django.contrib.auth import get_user_model
 
@@ -31,7 +30,6 @@ class PostSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['category'] = CategorySerializer(instance.category).data
         representation['author'] = instance.author.email
         representation['img'] = self._get_image_url(instance)
         return representation
