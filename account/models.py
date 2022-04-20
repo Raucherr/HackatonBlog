@@ -53,15 +53,6 @@ class User(AbstractUser):
         activations_code = md5_object.hexdigest()
         self.activation_code = activations_code
 
-    def send_new_password(self, new_password):
-        message = f'Ваш новый пароль: {new_password}'
-        send_mail(
-            'Восстановление пароля',
-            message,
-            'noreply@somehost.local',
-            [self.email]
-        )
-
 
 # class Profile(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE,
