@@ -37,6 +37,25 @@ class LogoutView(APIView):
         return Response('Successfully logout', status=status.HTTP_201_CREATED)
 
 
+class ForgotPasswordView(APIView):
+    def post(self, request):
+        serializer = ForgotPasswordSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.create_new_password()
+            return Response('Вам на почту выслан новый пароль')
+
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.data,
+                                              context={'request': request})
+        if serializer.is_valid(raise_exception=True):
+            serializer.set_new_password()
+            return Response('Пароль успешно обновлён')
+
+
 # class ProfileView(APIView):
 #     permission_classes = [IsAuthenticated, ]
 #

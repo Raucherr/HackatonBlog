@@ -28,6 +28,8 @@ urlpatterns = [
     path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
+    path('forgot_pass/', ForgotPasswordView.as_view(), name="forgot-password"),
+    path('change_password/', ChangePasswordView.as_view(), name="change-password")
     # path('profile/', ProfileView.as_view()),
     # path('profile-create/', ProfileCreateView.as_view()),
     # path('profile-update/<int:pk>/', ProfileUpdateView.as_view()),
