@@ -50,6 +50,6 @@ class PostViewSet(ModelViewSet):
     @action(detail=False, methods=['get'])
     def my_posts(self, request, pk=None):
         queryset = self.get_queryset()
-        queryset = queryset.filter(email=request.user)
+        queryset = queryset.filter(email=request.user.email)
         serializer = PostSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
