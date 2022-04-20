@@ -6,7 +6,7 @@ from comment.models import Comment
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('id', 'post', 'comment', 'image')
+        fields = ('id', 'post', 'comment')
 
     def create(self, validated_data):
         request = self.context.get('request')
